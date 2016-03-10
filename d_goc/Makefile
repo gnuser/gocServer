@@ -19,6 +19,7 @@ CFLAGS+= -g \
 	-I${SRC_ROOT}/d_3rd/jsoncpp/include \
 
 OBJCommon=	\
+	Global.o
 
 OBJS=${OBJCommon} main.o
 OBJSUnion=$(sort ${OBJS1})

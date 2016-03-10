@@ -1,9 +1,10 @@
 #include "Pch.h"
+#include "Global.hpp"
 #include <pthread.h>
 #include <boost/program_options.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
-
+#include <boost/thread.hpp>
 
 namespace po = boost::program_options;
 using namespace std;
@@ -43,6 +44,7 @@ int main(int argc, char** argv)
 
 	// load json config
 	//map<string, string> configMap = readJsonFile(configFile);
+	boost::thread networkThread(boost::bind(&boost::asio::io_service::run, &getIoService()));
 
 	sigset_t wait_mask;
 	sigemptyset(&wait_mask);
@@ -53,5 +55,7 @@ int main(int argc, char** argv)
 	int sig = 0;
 	sigwait(&wait_mask, &sig);
 
+	networkThread.join();
+	
 	return 0;
 }
